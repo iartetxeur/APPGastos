@@ -1,9 +1,10 @@
 import { Cabecera } from '../componentes/ui'
+import { INVERSIONES_ACTIVAS } from '../config'
 
 const ENLACES = [
   { ruta: '/presupuestos', icono: '🎯', titulo: 'Presupuestos', sub: 'Límites mensuales por categoría con aviso' },
   { ruta: '/recurrentes', icono: '🔁', titulo: 'Recurrentes', sub: 'Alquiler, suscripciones, sueldo…' },
-  { ruta: '/ajustes', icono: '⚙️', titulo: 'Ajustes', sub: 'Copias de seguridad, categorías, tema y bolsa' },
+  { ruta: '/ajustes', icono: '⚙️', titulo: 'Ajustes', sub: INVERSIONES_ACTIVAS ? 'Copias de seguridad, categorías, tema y bolsa' : 'Copias de seguridad, categorías y tema' },
 ]
 
 export function Mas() {

@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useMemo } from 'react'
 import { BarraPresupuesto, buscarCategoria, FilaMovimiento, Vacio, Variacion } from '../componentes/ui'
+import { INVERSIONES_ACTIVAS } from '../config'
 import { db } from '../db'
 import { useAcciones, useAjuste, useCategorias, useMovimientos } from '../hooks'
 import { estadoPresupuesto, eur, eurDec, filtrar, porCategoria, prevision, totales, variacion } from '../lib/calculos'
@@ -102,7 +103,7 @@ export function Inicio() {
         </section>
       )}
 
-      {cartera.invertido > 0 && (
+      {INVERSIONES_ACTIVAS && cartera.invertido > 0 && (
         <a className="tarjeta" href="#/inversiones" style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
           <h2>Inversiones</h2>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>

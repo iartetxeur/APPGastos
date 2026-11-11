@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { Cabecera, Hoja, Segmento } from '../componentes/ui'
+import { INVERSIONES_ACTIVAS } from '../config'
 import { db, guardarAjuste, nuevoId, type Categoria, type Tipo } from '../db'
 import { aplicarTema, leerTema, useAjuste, useCategorias, type Tema } from '../hooks'
 import { exportarCsv, exportarJson, importarCopia } from '../lib/copia'
@@ -58,7 +59,7 @@ export function Ajustes() {
         {mensaje && <p className="pequeno" role="status" style={{ marginTop: 10 }}>{mensaje}</p>}
       </section>
 
-      <ClaveBolsa />
+      {INVERSIONES_ACTIVAS && <ClaveBolsa />}
 
       <section className="tarjeta">
         <h2>Categorías</h2>

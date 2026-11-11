@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { FormMovimiento } from './componentes/FormMovimiento'
 import { ICONOS } from './componentes/ui'
+import { INVERSIONES_ACTIVAS } from './config'
 import type { Movimiento, Tipo } from './db'
 import { ContextoApp, useRuta } from './hooks'
 import { iniciarPrecios } from './lib/precios/servicio'
@@ -21,7 +22,7 @@ const PESTANAS = [
   { ruta: '/balance', texto: 'Balance', icono: ICONOS.balance },
   { ruta: '/inversiones', texto: 'Inversiones', icono: ICONOS.bolsa },
   { ruta: '/mas', texto: 'Más', icono: ICONOS.mas },
-]
+].filter((p) => INVERSIONES_ACTIVAS || p.ruta !== '/inversiones')
 
 const PESTANA_DE: Record<string, string> = {
   '': '/', movimientos: '/movimientos', balance: '/balance', inversiones: '/inversiones', activo: '/inversiones',
@@ -34,7 +35,7 @@ export default function App() {
 
   useEffect(() => {
     void aplicarRecurrentes()
-    void iniciarPrecios()
+    if (INVERSIONES_ACTIVAS) void iniciarPrecios()
     // Pide al navegador que no borre los datos si anda justo de espacio
     void navigator.storage?.persist?.().catch(() => false)
   }, [])
@@ -42,7 +43,9 @@ export default function App() {
   const acciones = useMemo(() => ({ abrirMovimiento: (m?: Movimiento, tipo?: Tipo) => setForm({ m, tipo }) }), [])
   const cerrar = useCallback(() => setForm(null), [])
 
-  const [, seccion = '', parametro = ''] = ruta.split('/')
+  const [, seccionPedida = '', parametro = ''] = ruta.split('/')
+  // Con las inversiones ocultas, sus direcciones llevan a Inicio
+  const seccion = !INVERSIONES_ACTIVAS && ['inversiones', 'activo'].includes(seccionPedida) ? '' : seccionPedida
   const pestana = PESTANA_DE[seccion] ?? '/'
   const enGastos = ['', 'movimientos', 'balance'].includes(seccion)
 
